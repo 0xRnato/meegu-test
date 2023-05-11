@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../database/prisma.service';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { HttpService } from '@nestjs/axios';
 
 @Injectable()
@@ -29,8 +29,17 @@ export class UserService {
     });
   }
 
-  findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  findAll(name?: string): Promise<User[]> {
+    const query: Prisma.UserFindManyArgs = name
+      ? {
+          where: {
+            name: {
+              contains: name,
+            },
+          },
+        }
+      : undefined;
+    return this.prisma.user.findMany(query);
   }
 
   findOne(id: number): Promise<User | null> {
