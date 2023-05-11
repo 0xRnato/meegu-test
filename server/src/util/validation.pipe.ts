@@ -9,6 +9,8 @@ import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform {
+  constructor(private readonly minimumAge?: number) {}
+
   async transform(value: any, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
@@ -19,6 +21,18 @@ export class ValidationPipe implements PipeTransform {
 
     if (errors.length > 0) {
       throw new BadRequestException('Validation failed');
+    }
+
+    if (this.minimumAge !== undefined) {
+      const birthdate = new Date(object.birthdate);
+      const ageDiff = Date.now() - birthdate.getTime();
+      const age = new Date(ageDiff).getUTCFullYear() - 1970;
+
+      if (age < this.minimumAge) {
+        throw new BadRequestException(
+          `User must be at least ${this.minimumAge} years old`,
+        );
+      }
     }
 
     return value;

@@ -12,13 +12,14 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '../util/auth.guard';
+import { ValidationPipe } from '../util/validation.pipe';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body(new ValidationPipe(18)) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
