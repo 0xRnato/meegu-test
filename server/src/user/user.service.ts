@@ -3,16 +3,28 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../database/prisma.service';
 import { User } from '@prisma/client';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly httpService: HttpService,
+  ) {}
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const { zipcode } = createUserDto;
+    const { data: addressData } = await this.httpService.axiosRef.get(
+      `https://viacep.com.br/ws/${zipcode}/json/`,
+    );
     return this.prisma.user.create({
       data: {
         ...createUserDto,
         birthdate: new Date(createUserDto.birthdate),
+        street: addressData.logradouro,
+        neighborhood: addressData.bairro,
+        city: addressData.localidade,
+        state: addressData.uf,
       },
     });
   }
