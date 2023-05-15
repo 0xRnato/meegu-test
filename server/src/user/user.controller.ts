@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  ParseIntPipe,
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
@@ -46,9 +47,11 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IResponse<User>> {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<IResponse<User>> {
     try {
-      const result = await this.userService.findOne(+id);
+      const result = await this.userService.findOne(id);
       if (!!result) return { success: true, data: result };
       else throw new Error('User not found');
     } catch (error) {
@@ -58,13 +61,13 @@ export class UserController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body(new ValidationPipe(18)) updateUserDto: UpdateUserDto,
   ): Promise<IResponse<User>> {
     try {
-      const checkUser = await this.userService.findOne(+id);
+      const checkUser = await this.userService.findOne(id);
       if (!!checkUser) {
-        const result = await this.userService.update(+id, updateUserDto);
+        const result = await this.userService.update(id, updateUserDto);
         return { success: true, data: result };
       } else throw new Error('User not found');
     } catch (error) {
@@ -74,11 +77,13 @@ export class UserController {
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<IResponse<null>> {
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<IResponse<null>> {
     try {
-      const checkUser = await this.userService.findOne(+id);
+      const checkUser = await this.userService.findOne(id);
       if (!!checkUser) {
-        await this.userService.remove(+id);
+        await this.userService.remove(id);
         return { success: true };
       } else throw new Error('User not found');
     } catch (error) {
