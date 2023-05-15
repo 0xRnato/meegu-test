@@ -13,7 +13,7 @@
       "sourceMaps": true,
       "envFile": "${workspaceFolder}/server/.env",
       "cwd": "${workspaceRoot}/server",
-      "console": "internalConsole",
+      "console": "internalConsole"
     }
   ]
 }
