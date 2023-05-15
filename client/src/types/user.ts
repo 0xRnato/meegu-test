@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
   id: number;
   name: string;
   birthdate: string;
@@ -13,7 +13,7 @@ export interface User {
   updatedAt: string | null;
 }
 
-export interface CreateUserDto {
+export interface ICreateUser {
   name: string;
   birthdate: string;
   document: string;
@@ -21,7 +21,7 @@ export interface CreateUserDto {
   acceptedTermsAndConditions?: boolean;
 }
 
-export interface UpdateUserDto {
+export interface IUpdateUser {
   name?: string;
   birthdate?: string;
   document?: string;
