@@ -10,7 +10,9 @@ export default function UserItem({ user }: { user: IUser }) {
       <td>{user.name}</td>
       <td>{formatDate(user.birthdate)}</td>
       <td>{user.document}</td>
-      <td>{user.acceptedTermsAndConditions}</td>
+      <td>
+        <input type="checkbox" checked={user.acceptedTermsAndConditions} className="checkbox" disabled />
+      </td>
       <td>{user.zipcode}</td>
       <td>{user.street}</td>
       <td>{user.neighborhood}</td>
