@@ -14,7 +14,7 @@ interface IUserContext {
   deleteUser: (userId: number) => Promise<void>;
 }
 
-const UserContext = createContext({});
+const UserContext = createContext({} as IUserContext);
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
