@@ -1,47 +1,51 @@
 import {
   IsBoolean,
   IsDateString,
-  IsNotEmpty,
   IsOptional,
+  IsPostalCode,
   IsString,
   Length,
+  IsDefined,
 } from 'class-validator';
+import { IsCPF } from '../../util/document.validator';
+import { IsUniqueDocument } from '../../util/unique-document.validator';
 
 export class CreateUserDto {
+  @IsDefined()
   @IsString()
-  @IsNotEmpty()
   @Length(2, 100)
   name: string;
 
   @IsDateString()
-  @IsNotEmpty()
+  @IsDefined()
   birthdate: Date;
 
-  @IsOptional()
-  @IsString()
-  document?: string;
+  @IsDefined()
+  @IsCPF()
+  @IsUniqueDocument()
+  document: string;
 
   @IsOptional()
   @IsBoolean()
   acceptedTermsAndConditions?: boolean;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsDefined()
+  @IsPostalCode('BR')
   zipcode: string;
 
   @IsOptional()
   @IsString()
-  street: string;
+  street?: string;
 
   @IsOptional()
   @IsString()
-  neighborhood: string;
+  neighborhood?: string;
 
   @IsOptional()
   @IsString()
-  city: string;
+  city?: string;
 
   @IsOptional()
   @IsString()
-  state: string;
+  state?: string;
 }

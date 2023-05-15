@@ -20,7 +20,16 @@ export class ValidationPipe implements PipeTransform {
     const errors = await validate(object);
 
     if (errors.length > 0) {
-      throw new BadRequestException('Validation failed');
+      const errorMessages = errors.reduce((messages, error) => {
+        for (const key in error.constraints) {
+          messages.push(error.constraints[key]);
+        }
+        return messages;
+      }, []);
+      throw new BadRequestException({
+        success: false,
+        errors: errorMessages,
+      });
     }
 
     if (this.minimumAge !== undefined) {
@@ -29,9 +38,10 @@ export class ValidationPipe implements PipeTransform {
       const age = new Date(ageDiff).getUTCFullYear() - 1970;
 
       if (age < this.minimumAge) {
-        throw new BadRequestException(
-          `User must be at least ${this.minimumAge} years old`,
-        );
+        throw new BadRequestException({
+          success: false,
+          errors: `User must be at least ${this.minimumAge} years old`,
+        });
       }
     }
 
