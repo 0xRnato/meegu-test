@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Controller } from 'react-hook-form';
@@ -62,10 +62,19 @@ export const BirthdateFieldCreate: React.FC<IBirthdateFieldCreate> = ({ errors, 
 };
 
 export const BirthdateFieldUpdate: React.FC<IBirthdateFieldUpdate> = ({ errors, control, defaultDate }) => {
-  const [selectedDate, setSelectedDate] = useState<string>(new Date(defaultDate).toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if (defaultDate) {
+      const birthdate = new Date(defaultDate);
+      const timeZoneOffset = birthdate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+      const adjustedBirthdate = new Date(birthdate.getTime() + timeZoneOffset);
+      setSelectedDate(adjustedBirthdate);
+    }
+  }, [defaultDate]);
 
   const handleDateChange = (date: Date) => {
-    setSelectedDate(date.toISOString().split('T')[0]);
+    setSelectedDate(date);
   };
 
   return (
@@ -78,7 +87,7 @@ export const BirthdateFieldUpdate: React.FC<IBirthdateFieldUpdate> = ({ errors, 
           rules={validationSchema.birthdate}
           render={({ field }) => (
             <DatePicker
-              selected={new Date(selectedDate)}
+              selected={selectedDate}
               onChange={(date) => {
                 handleDateChange(date as Date);
                 field.onChange(date);
