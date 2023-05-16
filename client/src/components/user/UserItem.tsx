@@ -1,3 +1,6 @@
+'use client';
+
+import Link from 'next/link';
 import { TrashIcon, PencilSquareIcon } from '@heroicons/react/20/solid';
 
 import { IUser } from '@/types/user';
@@ -38,9 +41,11 @@ export default function UserItem({ user, toggleDeleteUserModal }: IUserItemProps
       <td>{user.zipcode}</td>
       <td>
         <div className="flex">
-          <PencilSquareIcon className="h-5 w-5 m-2" />
-          <label htmlFor="delete-user-modal" onClick={handleDeleteUser}>
-            <TrashIcon className="btn-ghost h-5 w-5 m-2" />
+          <Link href={`/user/${user.id}`}>
+            <PencilSquareIcon className="h-5 w-5 m-2" />
+          </Link>
+          <label htmlFor="delete-user-modal" onClick={handleDeleteUser} className="cursor-pointer">
+            <TrashIcon className="h-5 w-5 m-2" />
           </label>
         </div>
       </td>

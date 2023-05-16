@@ -32,6 +32,18 @@ export const validationSchema = {
     required: 'Zipcode is required',
     validZipcode: (value: string) => validateCEP(value),
   },
+  street: {
+    required: 'Street is required',
+  },
+  neighborhood: {
+    required: 'Neighborhood is required',
+  },
+  city: {
+    required: 'City is required',
+  },
+  state: {
+    required: 'State is required',
+  },
   acceptedTermsAndConditions: {
     validate: {},
   },

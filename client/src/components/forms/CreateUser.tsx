@@ -1,9 +1,11 @@
+'use client'
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { ICreateUser } from '@/types/user';
 import { useUser } from '@/contexts/UserContext';
-import { InputField } from '@/components/inputs/InputField';
-import { BirthdateField } from '@/components/inputs/BirthdateFIeld';
+import { InputFieldCreate } from '@/components/inputs/InputField';
+import { BirthdateFieldCreate } from '@/components/inputs/BirthdateFIeld';
 
 interface ICreateUserProps {
   toggleModal: () => void;
@@ -36,7 +38,7 @@ export default function CreateUser({ toggleModal }: ICreateUserProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="form-control">
-        <InputField
+        <InputFieldCreate
           label="Name"
           name="name"
           type="text"
@@ -45,9 +47,9 @@ export default function CreateUser({ toggleModal }: ICreateUserProps) {
           className={`input input-primary ${errors.name ? 'input-error' : ''} w-full`}
         />
 
-        <BirthdateField errors={errors} control={control} />
+        <BirthdateFieldCreate errors={errors} control={control} />
 
-        <InputField
+        <InputFieldCreate
           label="Document"
           name="document"
           type="text"
@@ -56,7 +58,7 @@ export default function CreateUser({ toggleModal }: ICreateUserProps) {
           className={`input input-primary ${errors.document ? 'input-error' : ''} w-full`}
         />
 
-        <InputField
+        <InputFieldCreate
           label="Zipcode"
           name="zipcode"
           type="text"
@@ -65,7 +67,7 @@ export default function CreateUser({ toggleModal }: ICreateUserProps) {
           className={`input input-primary ${errors.zipcode ? 'input-error' : ''} w-full`}
         />
 
-        <InputField
+        <InputFieldCreate
           label="Terms and Conditions"
           name="acceptedTermsAndConditions"
           type="checkbox"

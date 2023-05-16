@@ -1,3 +1,5 @@
+'use client';
+
 import { useUser } from '@/contexts/UserContext';
 
 interface IDeleteUserProps {

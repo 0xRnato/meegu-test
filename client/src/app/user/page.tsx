@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import CreateUser from '@/components/modal/CreateUser';
-import DeleteUser from '@/components/modal/DeleteUser';
+import CreateUser from '@/components/forms/CreateUser';
+import DeleteUser from '@/components/forms/DeleteUser';
 import Modal from '@/components/modal/Modal';
 import UserList from '@/components/user/UserList';
 

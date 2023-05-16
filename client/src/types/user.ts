@@ -22,13 +22,13 @@ export interface ICreateUser {
 }
 
 export interface IUpdateUser {
-  name?: string;
-  birthdate?: string;
-  document?: string;
-  acceptedTermsAndConditions?: boolean;
-  zipcode?: string;
-  street?: string;
-  neighborhood?: string;
-  city?: string;
-  state?: string;
+  name: string;
+  birthdate: string;
+  document: string;
+  acceptedTermsAndConditions: boolean;
+  zipcode: string;
+  street: string;
+  neighborhood: string;
+  city: string;
+  state: string;
 }

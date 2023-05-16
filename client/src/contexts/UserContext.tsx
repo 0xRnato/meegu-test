@@ -3,16 +3,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import userService from '../services/userService';
-import { ICreateUser, IUser } from '@/types/user';
+import { ICreateUser, IUpdateUser, IUser } from '@/types/user';
 
 interface IUserContext {
   users: IUser[];
   userToDelete: IUser;
   setUserToDelete: React.Dispatch<React.SetStateAction<IUser>>;
+  loading: boolean;
   createUser: (userData: ICreateUser) => Promise<void>;
   getAllUsers: () => Promise<void>;
-  getUserById: (userId: number) => Promise<void>;
-  updateUser: (userId: number, userData: ICreateUser) => Promise<void>;
+  getUserById: (userId: number) => Promise<IUser>;
+  updateUser: (userId: number, userData: IUpdateUser) => Promise<void>;
   deleteUser: (userId: number) => Promise<void>;
 }
 
@@ -52,7 +53,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const createUser = async (userData: ICreateUser) => {
     setLoading(true);
     const user = await userService.create(userData);
-    setUsers([...users, user]);
+    setUsers((prevUsers) => [...prevUsers, user]);
     setLoading(false);
   };
 
@@ -66,21 +67,21 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const getUserById = async (userId: number) => {
     setLoading(true);
     const user = await userService.getById(userId);
-    setUsers([...users, user]);
     setLoading(false);
+    return user;
   };
 
-  const updateUser = async (userId: number, userData: ICreateUser) => {
+  const updateUser = async (userId: number, userData: IUpdateUser) => {
     setLoading(true);
     const user = await userService.update(userId, userData);
-    setUsers([...users, user]);
+    setUsers((prevUsers) => prevUsers.map((prevUser) => (prevUser.id === userId ? user : prevUser)));
     setLoading(false);
   };
 
   const deleteUser = async (userId: number) => {
     setLoading(true);
     await userService.delete(userId);
-    setUsers(users.filter((user) => user.id !== userId));
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
     setLoading(false);
   };
 
