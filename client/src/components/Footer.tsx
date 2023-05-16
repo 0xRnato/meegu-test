@@ -6,7 +6,7 @@ export default function Footer() {
       <div>
         <p>
           Made with ❤️ by{' '}
-          <Link href="https://github.com/0xRnato" target="_blank">
+          <Link href="https://github.com/0xRnato" target="_blank" className='link link-primary'>
             Renato Neto
           </Link>
         </p>

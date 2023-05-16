@@ -3,12 +3,16 @@
 import { useUser } from '@/contexts/UserContext';
 import UserItem from './UserItem';
 
-export default function UserList() {
+interface IUserListProps {
+  toggleDeleteUserModal: () => void;
+}
+
+export default function UserList({ toggleDeleteUserModal }: IUserListProps) {
   const { users } = useUser();
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table table-compact w-full">
+    <div className="overflow-x-auto shadow-2xl">
+      <table className="table w-full">
         {/* head */}
         <thead>
           <tr>
@@ -17,16 +21,12 @@ export default function UserList() {
             <th>document</th>
             <th>terms</th>
             <th>zipcode</th>
-            <th>street</th>
-            <th>neighborhood</th>
-            <th>city</th>
-            <th>state</th>
             <th>actions</th>
           </tr>
         </thead>
         <tbody>
           {users.length > 0 ? (
-            users.map((user) => <UserItem user={user} key={user.id} />)
+            users.map((user) => <UserItem user={user} key={user.id} toggleDeleteUserModal={toggleDeleteUserModal} />)
           ) : (
             <tr>
               <td colSpan={10}>No users found.</td>

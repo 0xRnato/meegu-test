@@ -6,11 +6,10 @@ import { InputField } from '@/components/inputs/InputField';
 import { BirthdateField } from '@/components/inputs/BirthdateFIeld';
 
 interface ICreateUserProps {
-  modalId: string;
-  closeModal: () => void;
+  toggleModal: () => void;
 }
 
-export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
+export default function CreateUser({ toggleModal }: ICreateUserProps) {
   const {
     control,
     handleSubmit,
@@ -31,7 +30,7 @@ export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
     };
 
     await createUser(formattedData);
-    closeModal();
+    toggleModal();
   };
 
   return (
@@ -79,7 +78,7 @@ export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
         <button className="btn btn-primary" type="submit">
           Create User
         </button>
-        <label htmlFor={modalId} className="btn">
+        <label className="btn" onClick={() => toggleModal()}>
           Close
         </label>
       </div>

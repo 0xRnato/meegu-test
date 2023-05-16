@@ -1,4 +1,7 @@
+import { TrashIcon, PencilSquareIcon } from '@heroicons/react/20/solid';
+
 import { IUser } from '@/types/user';
+import { useUser } from '@/contexts/UserContext';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -11,7 +14,19 @@ const formatDate = (dateString: string) => {
   return formattedDate;
 };
 
-export default function UserItem({ user }: { user: IUser }) {
+interface IUserItemProps {
+  user: IUser;
+  toggleDeleteUserModal: () => void;
+}
+
+export default function UserItem({ user, toggleDeleteUserModal }: IUserItemProps) {
+  const { setUserToDelete } = useUser();
+
+  const handleDeleteUser = () => {
+    setUserToDelete(user);
+    toggleDeleteUserModal();
+  };
+
   return (
     <tr>
       <td>{user.name}</td>
@@ -21,13 +36,13 @@ export default function UserItem({ user }: { user: IUser }) {
         <input type="checkbox" checked={user.acceptedTermsAndConditions} className="checkbox" disabled />
       </td>
       <td>{user.zipcode}</td>
-      <td>{user.street}</td>
-      <td>{user.neighborhood}</td>
-      <td>{user.city}</td>
-      <td>{user.state}</td>
       <td>
-        <button>Edit</button>
-        <button>Delete</button>
+        <div className="flex">
+          <PencilSquareIcon className="h-5 w-5 m-2" />
+          <label htmlFor="delete-user-modal" onClick={handleDeleteUser}>
+            <TrashIcon className="btn-ghost h-5 w-5 m-2" />
+          </label>
+        </div>
       </td>
     </tr>
   );

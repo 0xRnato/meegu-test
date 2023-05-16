@@ -7,6 +7,8 @@ import { ICreateUser, IUser } from '@/types/user';
 
 interface IUserContext {
   users: IUser[];
+  userToDelete: IUser;
+  setUserToDelete: React.Dispatch<React.SetStateAction<IUser>>;
   createUser: (userData: ICreateUser) => Promise<void>;
   getAllUsers: () => Promise<void>;
   getUserById: (userId: number) => Promise<void>;
@@ -20,6 +22,20 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userToDelete, setUserToDelete] = useState<IUser>({
+    id: 0,
+    name: '',
+    birthdate: '',
+    document: '',
+    acceptedTermsAndConditions: false,
+    zipcode: '',
+    street: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    createdAt: '',
+    updatedAt: '',
+  });
 
   useEffect(() => {
     userService
@@ -70,6 +86,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     users,
+    userToDelete,
+    setUserToDelete,
     createUser,
     getAllUsers,
     getUserById,
