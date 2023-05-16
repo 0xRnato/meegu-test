@@ -13,10 +13,13 @@ interface IInputFieldProps {
 
 export const InputField: React.FC<IInputFieldProps> = ({ label, name, type, errors, control, className }) => (
   <>
-    <label className="label">
-      {label}
-      <input type={type} className={className} {...control.register(name, validationSchema[name] as any)} />
-    </label>
-    {errors[name] && <span className="error">{errors[name]?.message?.toString()}</span>}
+    <label className="label">{label}</label>
+    <input type={type} className={className} {...control.register(name, validationSchema[name] as any)} />
+
+    {errors[name] && (
+      <label className="label">
+        <span className="label-text-alt">{errors[name]?.message?.toString()}</span>
+      </label>
+    )}
   </>
 );

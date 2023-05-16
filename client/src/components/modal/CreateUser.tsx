@@ -43,7 +43,7 @@ export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
           type="text"
           errors={errors}
           control={control}
-          className={`input input-primary ${errors.name ? 'input-error' : ''}`}
+          className={`input input-primary ${errors.name ? 'input-error' : ''} w-full`}
         />
 
         <BirthdateField errors={errors} control={control} />
@@ -54,7 +54,7 @@ export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
           type="text"
           errors={errors}
           control={control}
-          className={`input input-primary ${errors.document ? 'input-error' : ''}`}
+          className={`input input-primary ${errors.document ? 'input-error' : ''} w-full`}
         />
 
         <InputField
@@ -63,7 +63,7 @@ export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
           type="text"
           errors={errors}
           control={control}
-          className={`input input-primary ${errors.zipcode ? 'input-error' : ''}`}
+          className={`input input-primary ${errors.zipcode ? 'input-error' : ''} w-full`}
         />
 
         <InputField

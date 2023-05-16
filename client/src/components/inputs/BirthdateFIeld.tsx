@@ -21,31 +21,34 @@ export const BirthdateField: React.FC<IBirthdateField> = ({ errors, control }) =
 
   return (
     <>
-      <label className="label">
-        Birthdate
-        <div>
-          <Controller
-            control={control}
-            name="birthdate"
-            rules={validationSchema.birthdate}
-            render={({ field }) => (
-              <DatePicker
-                selected={new Date(selectedDate)}
-                onChange={(date) => {
-                  handleDateChange(date as Date);
-                  field.onChange(date);
-                }}
-                peekNextMonth
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                className={`input input-primary ${errors.birthdate ? 'input-error' : ''}`}
-              />
-            )}
-          />
-        </div>
-      </label>
-      {errors.birthdate && <span className="error">{errors.birthdate.message?.toString()}</span>}
+      <label className="label">Birthdate</label>
+      <div>
+        <Controller
+          control={control}
+          name="birthdate"
+          rules={validationSchema.birthdate}
+          render={({ field }) => (
+            <DatePicker
+              selected={new Date(selectedDate)}
+              onChange={(date) => {
+                handleDateChange(date as Date);
+                field.onChange(date);
+              }}
+              peekNextMonth
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              className={`input input-primary ${errors.birthdate ? 'input-error' : ''} w-full`}
+            />
+          )}
+        />
+      </div>
+
+      {errors.birthdate && (
+        <label className="label">
+          <span className="label-text-alt">{errors.birthdate.message?.toString()}</span>
+        </label>
+      )}
     </>
   );
 };
