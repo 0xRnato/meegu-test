@@ -1,7 +1,14 @@
 import { IUser } from '@/types/user';
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+  return formattedDate;
 };
 
 export default function UserItem({ user }: { user: IUser }) {
