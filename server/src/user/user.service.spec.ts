@@ -202,7 +202,7 @@ describe('UserService', () => {
       jest.spyOn(prismaService.user, 'update').mockResolvedValueOnce({
         ...mockUsers[0],
         name: mockUpdateName,
-        updatedAt: expect.any(Date),
+        updatedAt: new Date(),
       });
 
       // Act

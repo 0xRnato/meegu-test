@@ -105,7 +105,7 @@ describe('UserController', () => {
   describe('findOne', () => {
     it('should return a user by id', async () => {
       jest.spyOn(userService, 'findOne').mockResolvedValue(mockUsers[0]);
-      const result = await userController.findOne(mockId);
+      const result = await userController.findOne(+mockId);
       expect(result.success).toBe(true);
       expect(result.data).toEqual(mockUsers[0]);
     });
@@ -113,7 +113,7 @@ describe('UserController', () => {
     it('should throw an error if the user is not found', async () => {
       const error = new Error('User not found');
       jest.spyOn(userService, 'findOne').mockRejectedValue(error);
-      await expect(userController.findOne('999999')).rejects.toThrow(
+      await expect(userController.findOne(999999)).rejects.toThrow(
         NotFoundException,
       );
     });
@@ -127,7 +127,7 @@ describe('UserController', () => {
         name: mockUpdateName,
         updatedAt: expect.any(Date),
       });
-      const result = await userController.update(mockId, {
+      const result = await userController.update(+mockId, {
         name: mockUpdateName,
       });
       expect(result.success).toBe(true);
@@ -143,7 +143,7 @@ describe('UserController', () => {
     it('should remove a user', async () => {
       jest.spyOn(userService, 'findOne').mockResolvedValue(mockUsers[0]);
       jest.spyOn(userService, 'remove').mockResolvedValue(mockUsers[0]);
-      const result = await userController.remove(mockId);
+      const result = await userController.remove(+mockId);
       expect(result.success).toBe(true);
       expect(result.data).not.toBeDefined();
     });

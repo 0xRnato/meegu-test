@@ -47,13 +47,16 @@ export class UserService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const data = {
+      ...updateUserDto,
+      updatedAt: new Date(),
+    };
+    if (updateUserDto.birthdate) {
+      data.birthdate = new Date(updateUserDto.birthdate);
+    }
     return this.prisma.user.update({
       where: { id },
-      data: {
-        ...updateUserDto,
-        birthdate: new Date(updateUserDto.birthdate),
-        updatedAt: new Date(),
-      },
+      data,
     });
   }
 
