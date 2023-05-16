@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { ICreateUser } from '@/types/user';
 import { useUser } from '@/contexts/UserContext';
+import { InputField } from '@/components/inputs/InputField';
+import { BirthdateField } from '@/components/inputs/BirthdateFIeld';
 
 interface ICreateUserProps {
   modalId: string;
@@ -14,85 +13,67 @@ interface ICreateUserProps {
 export default function CreateUser({ modalId, closeModal }: ICreateUserProps) {
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<ICreateUser>();
   const { createUser } = useUser();
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const onSubmit: SubmitHandler<ICreateUser> = async (data) => {
-    await createUser(data);
-    closeModal();
-  };
+    // Get the birthdate value and adjust it for the time zone offset
+    const birthdate = new Date(data.birthdate);
+    const timeZoneOffset = birthdate.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+    const adjustedBirthdate = new Date(birthdate.getTime() - timeZoneOffset);
 
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
+    // Format the adjusted birthdate value before sending it to the backend
+    const formattedData = {
+      ...data,
+      birthdate: adjustedBirthdate.toISOString().split('T')[0],
+    };
+
+    await createUser(formattedData);
+    closeModal();
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="form-control">
-        <label className="label">
-          Name
-          <input
-            type="text"
-            className={`input input-primary ${errors.name ? 'input-error' : ''}`}
-            {...register('name', { required: 'Name is required' })}
-          />
-          {errors.name && <span className="error">{errors.name.message?.toString()}</span>}
-        </label>
+        <InputField
+          label="Name"
+          name="name"
+          type="text"
+          errors={errors}
+          control={control}
+          className={`input input-primary ${errors.name ? 'input-error' : ''}`}
+        />
 
-        <label className="label">
-          Birthdate
-          <div>
-            <Controller
-              control={control}
-              name="birthdate"
-              rules={{ required: 'Birthdate is required' }}
-              render={({ field }) => (
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => {
-                    handleDateChange(date as Date);
-                    field.onChange(date);
-                  }}
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                  className={`input input-primary ${errors.birthdate ? 'input-error' : ''}`}
-                />
-              )}
-            />
-          </div>
-          {errors.birthdate && <span className="error">{errors.birthdate.message?.toString()}</span>}
-        </label>
+        <BirthdateField errors={errors} control={control} />
 
-        <label className="label">
-          Document
-          <input
-            type="text"
-            className={`input input-primary ${errors.document ? 'input-error' : ''}`}
-            {...register('document', { required: 'Document is required' })}
-          />
-          {errors.document && <span className="error">{errors.document.message?.toString()}</span>}
-        </label>
+        <InputField
+          label="Document"
+          name="document"
+          type="text"
+          errors={errors}
+          control={control}
+          className={`input input-primary ${errors.document ? 'input-error' : ''}`}
+        />
 
-        <label className="label">
-          Zipcode
-          <input
-            type="text"
-            className={`input input-primary ${errors.zipcode ? 'input-error' : ''}`}
-            {...register('zipcode', { required: 'Zipcode is required' })}
-          />
-        </label>
+        <InputField
+          label="Zipcode"
+          name="zipcode"
+          type="text"
+          errors={errors}
+          control={control}
+          className={`input input-primary ${errors.zipcode ? 'input-error' : ''}`}
+        />
 
-        <label className="label">
-          Terms and Conditions
-          <input type="checkbox" className="checkbox checkbox-primary" {...register('acceptedTermsAndConditions')} />
-          {errors.zipcode && <span className="error">{errors.zipcode.message?.toString()}</span>}
-        </label>
+        <InputField
+          label="Terms and Conditions"
+          name="acceptedTermsAndConditions"
+          type="checkbox"
+          errors={errors}
+          control={control}
+          className="checkbox checkbox-primary"
+        />
       </div>
       <div className="modal-action">
         <button className="btn btn-primary" type="submit">
