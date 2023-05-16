@@ -23,7 +23,6 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
   @IsOptional()
   @IsCPF()
-  @IsUniqueDocument()
   document?: string;
 
   @IsOptional()

@@ -51,6 +51,7 @@ export class UserService {
       where: { id },
       data: {
         ...updateUserDto,
+        birthdate: new Date(updateUserDto.birthdate),
         updatedAt: new Date(),
       },
     });
