@@ -94,6 +94,7 @@ describe('UserController (e2e)', () => {
     it("should return a error if the user doesn't have a least 18yo", async () => {
       const createUserInvalidData = {
         ...createUserData,
+        document: cpf.generate(),
         birthdate: '2010-01-01',
       };
       const result = await request(app.getHttpServer())
