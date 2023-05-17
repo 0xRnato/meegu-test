@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../database/prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { HttpService } from '@nestjs/axios';
+import { cpf } from 'cpf-cnpj-validator';
 
 @Injectable()
 export class UserService {
@@ -20,6 +21,7 @@ export class UserService {
     return this.prisma.user.create({
       data: {
         ...createUserDto,
+        document: cpf.format(createUserDto.document),
         birthdate: new Date(createUserDto.birthdate),
         street: addressData.logradouro,
         neighborhood: addressData.bairro,
@@ -53,6 +55,9 @@ export class UserService {
     };
     if (updateUserDto.birthdate) {
       data.birthdate = new Date(updateUserDto.birthdate);
+    }
+    if (updateUserDto.document) {
+      data.document = cpf.format(updateUserDto.document);
     }
     return this.prisma.user.update({
       where: { id },

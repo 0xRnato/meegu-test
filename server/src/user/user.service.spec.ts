@@ -19,7 +19,7 @@ describe('UserService', () => {
       id: 1,
       name: 'Renato Neto',
       birthdate: new Date('1995-10-27'),
-      document: cpf.generate(),
+      document: cpf.format(cpf.generate()),
       acceptedTermsAndConditions: true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -33,7 +33,7 @@ describe('UserService', () => {
       id: 2,
       name: 'João Paulo',
       birthdate: new Date('1995-01-01'),
-      document: cpf.generate(),
+      document: cpf.format(cpf.generate()),
       acceptedTermsAndConditions: false,
       createdAt: new Date(),
       updatedAt: null,
@@ -75,7 +75,7 @@ describe('UserService', () => {
       const mockCreateUserDto: CreateUserDto = {
         name: 'Renato Neto',
         birthdate: new Date('1995-10-27'),
-        document: cpf.generate(),
+        document: cpf.format(cpf.generate()),
         zipcode: mockZipcode,
       };
       jest

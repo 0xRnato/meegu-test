@@ -14,7 +14,7 @@ describe('UserController (e2e)', () => {
   const createUserData = {
     name: 'Renato Neto',
     birthdate: '1990-01-01',
-    document: cpf.generate(),
+    document: cpf.format(cpf.generate()),
     zipcode: '30130-010',
   };
 
@@ -80,7 +80,7 @@ describe('UserController (e2e)', () => {
 
     it('should return a list of errors when sending just the document', async () => {
       const createUserData = {
-        document: cpf.generate(),
+        document: cpf.format(cpf.generate()),
       };
       const result = await request(app.getHttpServer())
         .post('/user')
@@ -94,7 +94,7 @@ describe('UserController (e2e)', () => {
     it("should return a error if the user doesn't have a least 18yo", async () => {
       const createUserInvalidData = {
         ...createUserData,
-        document: cpf.generate(),
+        document: cpf.format(cpf.generate()),
         birthdate: '2010-01-01',
       };
       const result = await request(app.getHttpServer())
