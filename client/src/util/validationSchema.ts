@@ -9,7 +9,7 @@ const validateAge = (value: string) => {
 
 const validateCEP = (value: string) => {
   const cepRegex = /^\d{5}-\d{3}$/;
-  return cepRegex.test(value) || 'Invalid zipcode';
+  return cepRegex.test(value) || 'Invalid zipcode. Must be formatted as follows: 00000-000';
 };
 
 export const validationSchema = {
@@ -30,7 +30,9 @@ export const validationSchema = {
   },
   zipcode: {
     required: 'Zipcode is required',
-    validZipcode: (value: string) => validateCEP(value),
+    validate: {
+      validZipcode: (value: string) => validateCEP(value),
+    },
   },
   street: {
     required: 'Street is required',
