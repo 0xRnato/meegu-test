@@ -1,4 +1,5 @@
 # Meegu Test
+[![wakatime](https://wakatime.com/badge/user/ae2057ea-cc3f-4b79-9a69-3f14457d33da/project/f182adf7-cabe-4b7a-bc84-6d1396bd2ccf.svg)](https://wakatime.com/badge/user/ae2057ea-cc3f-4b79-9a69-3f14457d33da/project/f182adf7-cabe-4b7a-bc84-6d1396bd2ccf)
 
 This project is a coding challenge that demonstrates a user CRUD (Create, Read, Update, Delete) application. The application is built using the following technologies:
 
