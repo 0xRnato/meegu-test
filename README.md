@@ -14,7 +14,7 @@ Please note that this project focuses on the core functionality of user manageme
 
 ## API Documentation
 
-For detailed API documentation, please refer to the [API Documentation](https://documenter.getpostman.com/view/1241471/2s93eePUTa#8cbecf76-50a0-429d-a7e0-0bdac11a66e6). It provides information about the available endpoints, request payloads, and response formats.
+For detailed API documentation, please refer to the [API Documentation](https://documenter.getpostman.com/view/1241471/2s93eePUTa). It provides information about the available endpoints, request payloads, and response formats.
 
 ## Installation
 
